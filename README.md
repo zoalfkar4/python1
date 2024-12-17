@@ -1,258 +1,40 @@
-import random
+###Description
 
-# Welcome message and game details
-print("Welcome to Virus Battle in 3025!")
-print("In the year 3025, doctors are shrunk to the size of bacteria to fight diseases inside the human body.")
-print("You, the doctor, will face three different types of viruses and bacteria in this game.")
-print("Your task is to solve mathematical equations to damage the viruses.")
-print("You have 3 lives. Each virus has its own health.")
-print("Stages 1 and 2 will have first-degree equations, and the final stage will have a second-degree equation.")
-print("Solve correctly to damage the virus, or lose a life if you're wrong. Good luck!\n")
+The game "Virus Battle in 3025" simulates a scenario where the player, representing a doctor, is shrunk down to the size of bacteria to fight off viruses within the human body. The player must solve mathematical equations to damage viruses in three stages, each representing a different type of virus. The player starts with three lives, and each incorrect answer results in losing one life. The game combines educational elements (solving math problems) with entertainment through a themed narrative.
 
+###Functionality
+This program has several key functionalities:
 
-# Initialize doctor lives
-doctor_lives = 3
+Welcome Message: Displays a welcome message with game details.
+Virus Representation: Each virus has a unique ASCII art representation.
+Mathematical Challenges: The player must solve:
+First-degree equations in the first two stages.
+Second-degree equations in the final stage.
+Health System: Each virus has health points, and the player must reduce the virus's health to zero to win that stage.
+Life System: The player starts with three lives, which are lost upon incorrect answers.
+Game End Conditions: The game concludes when either all viruses are defeated or the player loses all their lives.
+Input Validation: The program handles invalid inputs gracefully by reducing a life and continuing the game.
 
-# ASCII art for different viruses
-virus1_art = r""" 
-───────▄█──────────█─────────█▄───────
-─────▐██──────▄█──███──█▄─────██▌─────
-────▐██▀─────█████████████────▀██▌────
-───▐██▌─────██████████████─────▐██▌───
-───████────████████████████────████───
-──▐█████──██████████████████──█████▌──
-───████████████████████████████████───
-────███████▀▀████████████▀▀███████────
-─────█████▌──▄▄─▀████▀─▄▄──▐█████─────
-───▄▄██████▄─▀▀──████──▀▀─▄██████▄▄───
-──██████████████████████████████████──
-─████████████████████████████████████─
-▐██████──███████▀▄██▄▀███████──██████▌
-▐█████────██████████████████────█████▌
-▐█████─────██████▀──▀██████─────█████▌
-─█████▄─────███────────███─────▄█████─
-──██████─────█──────────█─────██████──
-────█████────────────────────█████────
-─────█████──────────────────█████─────
-──────█████────────────────█████──────
-───────████───▄────────▄───████───────
-────────████─██────────██─████────────
-────────████████─▄██▄─████████────────
-───────████████████████████████───────
-───────████████████████████████───────
-────────▀█████████▀▀█████████▀────────
-──────────▀███▀────────▀███▀──────────
+###Architecture
+The architecture of the game can be described in terms of its main components (functions and attributes). While the provided code does not use classes, I will outline how it could be organized if classes were to be implemented.
 
-"""
-virus2_art = r"""
-███████████████████████████████████
-███████████████████████████████████
-███████████████████████████████████
-█████████████▒▒▒▒▒▒▒▒▒█████████████
-█████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█████████
-███████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒███████
-██████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒██████
-█████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█████
-█████▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒█████
-████▒▒▒▒███▒▒▒▒▒▒▒▒▒▒▒▒▒███▒▒▒▒████
-███▒▒▒▒██████▒▒▒▒▒▒▒▒▒██████▒▒▒▒███
-███▒▒▒███▐▀███▒▒▒▒▒▒▒███▀▌███▒▒▒███
-███▒▒▒██▄▐▌▄███▒▒▒▒▒███▄▐▌▄██▒▒▒███
-███▒▒▒▒██▌███▒▒▒█▒█▒▒▒███▐██▒▒▒▒███
-██▒▒▒▒▒▒███▒▒▒▒██▒██▒▒▒▒███▒▒▒▒▒▒██
-█▒▒▒▒▒▒▒▒█▒▒▒▒██▒▒▒██▒▒▒▒█▒▒▒▒▒▒▒▒█
-█▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒▒▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒█
-█▒▒▒▒█▒▒█▒▒▒▒██▒▒▒▒▒██▒▒▒▒█▒▒█▒▒▒▒█
-██▒▒▒█▒▒█▒▒▒▒█▒██▒██▒█▒▒▒▒█▒▒█▒▒▒██
-███▒█▒▒█▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒▒█▒███
-█████▒▒█▒▒▒▐███████████▌▒▒▒█▒▒█████
-███████▒▒▒▐█▀██▀███▀██▀█▌▒▒▒███████
-███████▒▒▒▒█▐██▐███▌██▌█▒▒▒▒███████
-███████▒▒▒▒▒▐▒▒▐▒▒▒▌▒▒▌▒▒▒▒▒███████
-████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒████████
-████████▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒████████
-█████████▒▒█▒█▒▒▒█▒▒▒█▒█▒▒█████████
-█████████▒██▒█▒▒▒█▒▒▒█▒██▒█████████
-██████████████▒▒███▒▒██████████████
-██████████████▒█████▒██████████████
-███████████████████████████████████
-███████████████████████████████████
+Classes and Methods
+Game Class: This could encapsulate the overall game logic.
+Attributes:
+doctor_lives: Integer representing the number of lives the player has.
+viruses: List of virus objects, each containing health points and ASCII art.
 
-"""
-virus3_art = r"""
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░░░░░████░░░░░░░░░░░░░░░████░░░░░
-░░░░███░░░░░░░░░░░░░░░░░░░███░░░░
-░░░███░░░░░░░░░░░░░░░░░░░░░███░░░
-░░███░░░░░░░░░░░░░░░░░░░░░░░███░░
-░███░░░░░░░░░░░░░░░░░░░░░░░░░███░
-████░░░░░░░░░░░░░░░░░░░░░░░░░████
-████░░░░░░░░░░░░░░░░░░░░░░░░░████
-██████░░░░░░░███████░░░░░░░██████
-█████████████████████████████████
-█████████████████████████████████
-░███████████████████████████████░
-░░████░███████████████████░████░░
-░░░░░░░███▀███████████▀███░░░░░░░
-░░░░░░████──▀███████▀──████░░░░░░
-░░░░░░█████───█████───█████░░░░░░
-░░░░░░███████▄█████▄███████░░░░░░
-░░░░░░░███████████████████░░░░░░░
-░░░░░░░░█████████████████░░░░░░░░
-░░░░░░░░░███████████████░░░░░░░░░
-░░░░░░░░░░█████████████░░░░░░░░░░
-░░░░░░░░░░░███████████░░░░░░░░░░░
-░░░░░░░░░░███──▀▀▀──███░░░░░░░░░░
-░░░░░░░░░░███─█████─███░░░░░░░░░░
-░░░░░░░░░░░███─███─███░░░░░░░░░░░
-░░░░░░░░░░░░█████████░░░░░░░░░░░░
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+###Methods
+__init__(): Initializes the game state (lives, virus states).
 
-"""
+display_welcome_message(): Shows the welcome message and game instructions.
 
-# Stage 1: Virus 1 (First-degree equation)
-print("Stage 1: Fight Virus 1")
-print(virus1_art)
+play_stage(virus): Handles the gameplay for a given virus, including equation generation and checking answers.
 
-# Virus 1 health
-virus1_hp = 2
+generate_first_degree_equation(): Generates a random first-degree equation and returns its answer.
 
-while virus1_hp > 0 and doctor_lives > 0:
-    a = random.randint(1, 10)
-    b = random.randint(1, 10)
-    x = random.randint(1, 10)
-    result = a * x + b
-    print(f"Solve for x: {a} * x + {b} = {result}")
+generate_second_degree_equation(): Generates a random second-degree equation and returns its answer and possible roots.
 
-    try:
-        player_answer = int(input("Enter the value of x: "))
-    except ValueError:
-        print("Invalid input. You lose a life.")
-        doctor_lives -= 1
-        continue
+check_answer(): Validates the player's answer and updates health/lives accordingly.
 
-    if player_answer == x:
-        print("Correct! You damaged the virus.")
-        virus1_hp -= 1
-    else:
-        print("Wrong! The virus hit you.")
-        doctor_lives -= 1
-
-# Stage 2: Virus 2 (First-degree equation)
-if doctor_lives > 0:
-    print("\nStage 2: Fight Virus 2")
-    print(virus2_art)
-
-# Virus 2 health
-virus2_hp = 2
-
-while virus2_hp > 0 and doctor_lives > 0:
-    a = random.randint(1, 10)
-    b = random.randint(1, 10)
-    x = random.randint(1, 10)
-    result = a * x + b
-    print(f"Solve for x: {a} * x + {b} = {result}")
-
-    try:
-        player_answer = int(input("Enter the value of x: "))
-    except ValueError:
-        print("Invalid input. You lose a life.")
-        doctor_lives -= 1
-        continue
-
-    if player_answer == x:
-        print("Correct! You damaged the virus.")
-        virus2_hp -= 1
-    else:
-        print("Wrong! The virus hit you.")
-        doctor_lives -= 1
-
-# Stage 3: Virus 3 (Second-degree equation)
-if doctor_lives > 0:
-    print("\nFinal Stage: Fight Virus 3")
-    print(virus3_art)
-
-# Virus 3 health
-virus3_hp = 1
-
-while virus3_hp > 0 and doctor_lives > 0:
-    a = random.randint(1, 5)
-    b = random.randint(1, 10)
-    c = random.randint(1, 10)
-    x = random.randint(1, 5)  # Limit to small values for simplicity
-    result = a * x**2 + b * x + c
-    print(f"Solve for x: {a} * x^2 + {b} * x + {c} = {result}")
-
-    try:
-        player_answer = int(input("Enter the value of x: "))
-    except ValueError:
-        print("Invalid input. You lose a life.")
-        doctor_lives -= 1
-        continue
-
-    # For simplicity, we'll check if the player provides one of the possible roots
-    if player_answer == x or player_answer == -b // a:
-        print("Correct! You defeated the virus!")
-        virus3_hp -= 1
-    else:
-        print("Wrong! The virus hit you.")
-        doctor_lives -= 1
-
-# Game result
-if doctor_lives > 0:
-    print("""\nCongratulations! You defeated all the viruses and saved the patient!\n ─────────────────────────────▄██▄
-─────────────────────────────▀███
-────────────────────────────────█
-───────────────▄▄▄▄▄────────────█
-──────────────▀▄────▀▄──────────█
-──────────▄▀▀▀▄─█▄▄▄▄█▄▄─▄▀▀▀▄──█
-─────────█──▄──█────────█───▄─█─█
-─────────▀▄───▄▀────────▀▄───▄▀─█
-──────────█▀▀▀────────────▀▀▀─█─█
-──────────█───────────────────█─█
-▄▀▄▄▀▄────█──▄█▀█▀█▀█▀█▀█▄────█─█
-█▒▒▒▒█────█──█████████████▄───█─█
-█▒▒▒▒█────█──██████████████▄──█─█
-█▒▒▒▒█────█───██████████████▄─█─█
-█▒▒▒▒█────█────██████████████─█─█
-█▒▒▒▒█────█───██████████████▀─█─█
-█▒▒▒▒█───██───██████████████──█─█
-▀████▀──██▀█──█████████████▀──█▄█
-──██───██──▀█──█▄█▄█▄█▄█▄█▀──▄█▀
-──██──██────▀█─────────────▄▀▓█
-──██─██──────▀█▀▄▄▄▄▄▄▄▄▄▀▀▓▓▓█
-──████────────█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█
-──███─────────█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█
-──██──────────█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█
-──██──────────█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█
-──██─────────▐█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█
-──██────────▐█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█
-──██───────▐█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█▌
-──██──────▐█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█▌
-──██─────▐█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█▌
-──██────▐█▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓█▌
-""")
-else:
-    print("""\nGame Over! The doctor lost all lives.\n
-███████████████████████████
-███████▀▀▀░░░░░░░▀▀▀███████
-████▀░░░░░░░░░░░░░░░░░▀████
-███│░░░░░░░░░░░░░░░░░░░│███
-██▌│░░░░░░░░░░░░░░░░░░░│▐██
-██░└┐░░░░░░░░░░░░░░░░░┌┘░██
-██░░└┐░░░░░░░░░░░░░░░┌┘░░██
-██░░┌┘▄▄▄▄▄░░░░░▄▄▄▄▄└┐░░██
-██▌░│██████▌░░░▐██████│░▐██
-███░│▐███▀▀░░▄░░▀▀███▌│░███
-██▀─┘░░░░░░░▐█▌░░░░░░░└─▀██
-██▄░░░▄▄▄▓░░▀█▀░░▓▄▄▄░░░▄██
-████▄─┘██▌░░░░░░░▐██└─▄████
-█████░░▐█─┬┬┬┬┬┬┬─█▌░░█████
-████▌░░░▀┬┼┼┼┼┼┼┼┬▀░░░▐████
-█████▄░░░└┴┴┴┴┴┴┴┘░░░▄█████
-███████▄░░░░░░░░░░░▄███████
-██████████▄▄▄▄▄▄▄██████████
-███████████████████████████
-""")
-
-
+game_over(): Displays the end game message based on the outcome.
